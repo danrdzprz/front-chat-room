@@ -1,0 +1,192 @@
+@use './vuetify';
+
+.dialog-button{
+  background-color: rgb(var(--v-theme-primary)) !important;
+  color: white !important;
+}
+
+.title-text-color{
+  color: rgb(var(--v-theme-primary));
+}
+
+.uppercase-text{
+  text-transform: uppercase;
+}
+
+.edit-overlay-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .v-overlay__content{
+    .v-responsive.v-img{
+      min-width: 600px;
+      @media (max-width: 700px) {
+        min-width: 90vw;
+      }
+    }
+  }
+}
+
+.overlay-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .v-overlay__content{
+    .v-responsive.v-img{
+      min-width: 600px;
+      @media (max-width: 700px) {
+        min-width: 90vw;
+      }
+    }
+  }
+}
+
+.v-messages > * {
+  font-size: 14px;
+  line-height: unset !important;
+}
+
+.v-field > *:has(input[required]) .v-label.v-field-label::before{
+  content: "*";
+}
+
+.required-input > * .v-label.v-field-label::before{
+  content: "*";
+}
+
+.raise-animation:hover,
+.raise-animation:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+
+.zoom-animation {
+  // padding: 50px;
+  transition: transform .2s; /* Animation */
+  // width: 200px;
+  // height: 200px;
+  margin: 0 auto;
+}
+
+.zoom-animation:hover {
+  transform: scale(2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.category-popular-card{
+  border-radius: 0px; 
+  border-style: solid; 
+  border-color: #e5e5e5; 
+  border-width: 1px;
+}
+
+.raise-animation:hover,
+  .raise-animation:focus {
+    color: rgb(255, 255, 255);
+    background-color: black;
+  }
+
+  .to-black-animation:hover,
+  .to-black-animation:focus {
+    color: rgb(255, 255, 255);
+    background-color: black;
+  }
+
+.effect {
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  text-transform: capitalize;
+  width: 150px;
+  overflow: hidden;
+}
+.effect.effect-1 {
+  transition: all 0.2s linear 0s;
+  
+  &:before {
+    content: "\F19B0";
+    font: normal normal normal 24px / 1 "Material Design Icons";
+    font-size: 15px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    height: 100%;
+    width: 40px;
+    transition: all 0.2s linear 0s;
+  }
+  
+  &:hover {
+    text-indent: -20px;
+    
+    &:before {
+      opacity: 1;
+      text-indent: 0px;
+    }
+  }
+}
+
+.v-card--variant-outlined {
+  border: thin solid #e5e5e5;
+}
+
+.reset-ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.more-actions-categories > a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  padding-bottom: 3px;
+  background:
+  linear-gradient(to right, rgb(0 0 0), rgb(2 2 7)), 
+  linear-gradient(to right, rgb(255 223 48), rgb(255 223 48), rgb(255 223 48));
+  background-size: 100% 3px, 0 3px;
+  background-position: 100% 100%, 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 400ms;
+}
+
+.more-actions-categories > a:hover {
+  background-size: 0 3px, 100% 3px;
+}
+
+
+.custom-select-field{
+  .v-input__control{
+      .v-field{
+          box-shadow: none;
+          .v-field__overlay{
+              background-color: rgb(var(--v-theme-inputBackground));
+              border-radius: 25px;
+          }
+      }
+  }
+  .v-field--variant-solo, .v-field--variant-solo-filled{
+    background-color: transparent;
+  }
+}
+
+.general-overlay-div{
+  margin-top: -80px;
+}
+
+.light-outlined-card{
+  border-radius: 0px; 
+  border-style: solid; 
+  border-color: #e5e5e5; 
+  border-width: 1px;
+}
+
+.v-messages__message{
+  text-align: justify;
+}
+
+.shop.dashboard-carousel>.carousel__viewport > ol > li.carousel__slide{
+    justify-content: left;
+}

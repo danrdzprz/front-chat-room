@@ -1,0 +1,296 @@
+{
+  "general":{
+    "search":"Buscar ...",
+    "save":"Guardar",
+    "cancel":"Cancelar",
+    "back":"Regresar",
+    "logout":"Cerrar Sesión",
+    "login_button":"Ingresar",
+    "login":"Inicia sesión para comenzar",
+    "required":"* Campos requeridos",
+    "register":"Registrar",
+    "export":"Exportar",
+    "forget_password":"Olvidé mi contraseña"
+  },
+  "inputs":{
+    "datepicker":{
+      "title":"Selecciona una fecha"
+    }
+  },
+  "shop":{
+    "register":{
+      "title":"Crear cuenta"
+    },
+    "quotations":{
+      "title":"Cotizador",
+      "form":"Datos de contacto",
+      "send":"Cotizar",
+      "continue":"Continuar cotizando",
+      "message":"Los precios serán enviados en la cotización",
+      "list":{
+        "title":"Mis solicitudes"
+      }
+    }
+  },
+  "forgot-password":{
+    "title":"Restablecer la contraseña",
+    "subtitle":"Añade tu correo electrónico para recibir instrucciones",
+    "button":"Mandar instrucciones"
+  },
+  "resert-password":{
+    "title":"Actualizar contraseña",
+    "button":"Cambiar"
+  },
+  "manager":{
+    "profile":{
+      "title":"Perfil de usuario",
+      "options":{
+        "option-one":"General",
+        "option-two":"Contraseñas"
+      },
+      "signin":{
+        "title":"Iniciar sesión en su cuenta",
+        "form":{
+          "username":"Correo",
+          "password":"Contraseña"
+        },
+        "actions":{
+          "start":"Iniciar",
+          "register":"Crear cuenta"
+        }
+      }
+    },
+    "auth":{
+      "signin":{
+        "title":"Iniciar sesión en su cuenta",
+        "form":{
+          "username":"Correo",
+          "password":"Contraseña"
+        },
+        "actions":{
+          "start":"Iniciar",
+          "register":"Crear cuenta"
+        }
+      }
+    },
+    "employees":{
+      "index":{
+        "title":"Empleados",
+        "create":"Nuevo empleado"
+      },
+      "create":{
+        "title":"Nuevo empleado"
+      },
+      "detail":{
+        "title":"Detalles del empleado"
+      },
+      "update":{
+        "title":"Actualizar empleado"
+      },
+      "update_password":{
+        "title":"Actualizar contraseña"
+      }
+    },
+    "customers":{
+      "index":{
+        "title":"Clientes",
+        "create":"Nuevo Cliente"
+      },
+      "detail":{
+        "title":"Detalles del cliente"
+      },
+      "create":{
+        "title":"Nuevo cliente"
+      },
+      "update":{
+        "title":"Actualizar cliente"
+      },
+      "update_password":{
+        "title":"Actualizar contraseña"
+      }
+    },
+    "categories":{
+      "add_feature":"Agregar característica",
+      "delete_feature":"Eliminar característica",
+      "index":{
+        "title":"Categorías",
+        "create":"Nueva categoría"
+      },
+      "detail":{
+        "title":"Detalles de la categoría"
+      },
+      "create":{
+        "title":"Nueva categoría"
+      },
+      "update":{
+        "title":"Actualizar categoría"
+      }
+    },
+    "subcategories":{
+      "index":{
+        "title":"Subcategorías",
+        "create":"Nueva Subcategoría"
+      },
+      "detail":{
+        "title":"Detalles de la subcategoría"
+      },
+      "create":{
+        "title":"Nueva Subcategoría"
+      },
+      "update":{
+        "title":"Actualizar Subcategoría"
+      }
+    },
+    "products":{
+      "add_variant":"Agregar modelo",
+      "add_related_product":"Agregar producto a relacionar",
+      "add_feature":"Agregar característica",
+      "delete_feature":"Eliminar característica",
+      "index":{
+        "title":"Productos",
+        "create":"Nuevo producto"
+      },
+      "detail":{
+        "title":"Detalles del producto"
+      },
+      "create":{
+        "title":"Nuevo producto"
+      },
+      "update":{
+        "title":"Actualizar producto"
+      }
+    },
+    "quotations":{
+      "add_variant":"Agregar variante",
+      "add_feature":"Agregar característica",
+      "delete_feature":"Eliminar característica",
+      "index":{
+        "title":"Cotizaciones",
+        "create":"Nueva cotización"
+      },
+      "detail":{
+        "title":"Detalles de la cotización"
+      },
+      "create":{
+        "title":"Nueva cotización"
+      },
+      "update":{
+        "title":"Actualizar cotización"
+      }
+    }
+  },
+  "validations":{
+    "errors": {
+      "invalid_type": "Campo requerido",
+      "invalid_type_received_undefined": "Campo requerido",
+      "invalid_literal": "Valor literal inválido, se esperaba {expected}",
+      "unrecognized_keys": "Llave(s) no reconocida(s) en el objeto: {- keys}",
+      "invalid_union": "Entrada inválida",
+      "invalid_union_discriminator": "Valor discriminador inválido. Se esperaba {- options}",
+      "invalid_enum_value": "Valor inválido. Se esperaba {- options}, se recibió '{received}'",
+      "invalid_arguments": "Argumentos de función inválidos",
+      "invalid_return_type": "Tipo de retorno de función inválido",
+      "invalid_date": "Fecha inválida",
+      "custom": "Entrada inválida",
+      "invalid_intersection_types": "Valores de intersección no pudieron ser mezclados",
+      "not_multiple_of": "Número debe ser múltiplo de {multipleOf}",
+      "not_finite": "Número no puede ser infinito",
+      "invalid_string": {
+        "email": "Ingresa un {validation} válido",
+        "url": "Ingresa una {validation} válido",
+        "uuid": "Ingresa un {validation} válido",
+        "cuid": "Ingresa un {validation} válido",
+        "regex": "Inválido",
+        "datetime": "{validation} inválida",
+        "startsWith": "Entrada inválida: debe comenzar con \"{startsWith}\"",
+        "endsWith": "Entrada inválida: debe finalizar con \"{endsWith}\""
+      },
+      "too_small": {
+        "array": {
+          "exact": "La lista debe contener exactamente {minimum} elemento(s)",
+          "inclusive": "La lista debe contener al menos {minimum} elemento(s)",
+          "not_inclusive": "La lista debe contener más de {minimum} elemento(s)"
+        },
+        "string": {
+          "exact": "El campo debe contener exactamente {minimum} carácter(es)",
+          "inclusive": "El campo debe contener al menos {minimum} carácter(es)",
+          "not_inclusive": "El campo debe contener más de {minimum} carácter(es)"
+        },
+        "number": {
+          "exact": "El número debe ser exactamente {minimum}",
+          "inclusive": "El número debe ser mayor o igual a {minimum}",
+          "not_inclusive": "El número debe ser mayor que {minimum}"
+        },
+        "set": {
+          "exact": "Entrada inválida",
+          "inclusive": "Entrada inválida",
+          "not_inclusive": "Entrada inválida"
+        },
+        "date": {
+          "exact": "La fecha debe ser exactamente {- minimum, datetime}",
+          "inclusive": "La fecha debe ser mayor o igual al {- minimum, datetime}",
+          "not_inclusive": "La fecha debe ser mayor que el {- minimum, datetime}"
+        }
+      },
+      "too_big": {
+        "array": {
+          "exact": "La lista debe contener exactamente {maximum} elemento(s)",
+          "inclusive": "La lista debe contener como máximo {maximum} elemento(s)",
+          "not_inclusive": "La lista debe contener menos que {maximum} elemento(s)"
+        },
+        "string": {
+          "exact": "El campo debe contener exactamente {maximum} carácter(es)",
+          "inclusive": "El campo debe contener como máximo {maximum} carácter(es)",
+          "not_inclusive": "El campo debe contener menos de {maximum} carácter(es)"
+        },
+        "number": {
+          "exact": "El número debe ser exactamente {maximum}",
+          "inclusive": "El número debe ser menor o igual a {maximum}",
+          "not_inclusive": "El número debe ser menor que {maximum}"
+        },
+        "set": {
+          "exact": "Entrada inválida",
+          "inclusive": "Entrada inválida",
+          "not_inclusive": "Entrada inválida"
+        },
+        "date": {
+          "exact": "La fecha debe ser exactamente {- maximum, datetime}",
+          "inclusive": "La fecha debe ser menor o igual al {- maximum, datetime}",
+          "not_inclusive": "La fecha debe ser menor que el {- maximum, datetime}"
+        }
+      }
+    },
+    "validations": {
+      "email": "correo",
+      "url": "enlace",
+      "uuid": "uuid",
+      "cuid": "cuid",
+      "regex": "expresión regular",
+      "datetime": "fecha",
+      "required":"* Campos requeridos"
+    },
+    "types": {
+      "function": "función",
+      "file": "Archivo",
+      "number": "número",
+      "string": "texto",
+      "nan": "valor no numérico",
+      "integer": "entero",
+      "float": "decimal",
+      "boolean": "booleano",
+      "date": "fecha",
+      "bigint": "entero grande",
+      "undefined": "indefinido",
+      "symbol": "símbolo",
+      "null": "nulo",
+      "array": "lista",
+      "object": "objeto",
+      "unknown": "desconocido",
+      "promise": "promesa",
+      "void": "void",
+      "never": "nunca",
+      "map": "mapa",
+      "set": "conjunto"
+    }
+  }
+}
