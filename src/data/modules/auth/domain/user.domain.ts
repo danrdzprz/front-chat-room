@@ -1,4 +1,5 @@
 export interface UserDomain {
-    "id": number;
-    "email": string;
+    _id: string;
+    name: string;
+    email: string;
 }

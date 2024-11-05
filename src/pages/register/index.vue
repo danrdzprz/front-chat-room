@@ -51,14 +51,14 @@
 
 <script setup lang="ts">
   import { useForm } from 'vee-validate';
-    import { ResolverLoginSchema } from '~/data/schemes/login.scheme';
+    import { ResolverLoginSchema } from '~/data/schemes/auth/login.scheme';
 
     definePageMeta({
         layout: 'default'
     })
 
     useHead({
-        title: 'RACKART || Iniciar sesión'
+        title: 'Chat Room || Iniciar sesión'
     })
 
 

@@ -29,6 +29,7 @@
                   <VCol>
                     <div>
                       <VBtn 
+					  :loading="login_store.status === RequestStatus.LOADING"
                       type="submit" block min-height="44" class="gradient primary" color="primary" rounded="xl">{{ $t('chat.sign_up.sign_up_button') }}</VBtn>
                     </div>
                   </VCol>
@@ -47,15 +48,18 @@
 </template>
 
 <script setup lang="ts">
-    import { useForm } from 'vee-validate';
-    import { ResolverLoginSchema } from '~/data/schemes/login.scheme';
+import { useForm } from 'vee-validate';
+import type { LoginDomain } from '~/data/modules/auth/domain/auth-domain';
+import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+import { ResolverLoginSchema } from '~/data/schemes/auth/login.scheme';
+import { useLoginStore } from '~/data/store/auth/login.store';
 
     definePageMeta({
         layout: 'default'
     })
 
     useHead({
-        title: 'RACKART || Iniciar sesión'
+        title: 'Chat Room || Iniciar sesión'
     })
 
 
@@ -63,17 +67,45 @@
 
     const { localImage  } = useImageSrc();
 
-    const foo = useFoo();
+    const login_store = useLoginStore();
 
-    
-
-    const { handleSubmit, handleReset,setErrors,errors,values } = useForm({
+    const { handleSubmit, handleReset,setErrors,errors,values } = useForm<LoginDomain>({
         validationSchema: ResolverLoginSchema(),
     });
 
     const onSubmit = handleSubmit(async values => {
-       
+		login_store.submitLogin(values);
     });
+
+	login_store.$subscribe(async(mutation, state) => {
+		if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
+			if ("PasswordCredential" in window) {
+			let credential = new PasswordCredential({
+				id: values.email,
+				password: values.password,
+			});
+
+			navigator.credentials.store(credential).then(
+				() => {
+				console.info("Credential stored in the user agent's credential manager.");
+				},
+				(err) => {
+				console.error("Error while storing the credential: ", err);
+				},
+			);
+			}
+			reloadNuxtApp({
+				path: `/chat`
+			});
+		}
+		if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.ERROR ){
+			setErrors(login_store.errors as any);
+		}
+	});
+
+	onUnmounted(async()=>{
+		login_store.$reset();
+	})
 
 
 </script>
