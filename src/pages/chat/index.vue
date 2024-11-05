@@ -1,10 +1,19 @@
 <template>
-    <!-- <v-app id="inspire"> -->
         <v-sheet
             class="mx-auto sticky-chat-menu"
         >   
-        <div class="d-flex align-center justify-space-between">
+            <div class="d-flex align-center justify-space-between">
                 <h3 class="ml-5">{{ user.fullName }}</h3>
+                <v-responsive max-width="300">
+                <v-text-field
+                    bg-color="grey-lighten-1"
+                    density="compact"
+                    rounded="pill"
+                    variant="solo-filled"
+                    flat
+                    hide-details
+                ></v-text-field>
+                </v-responsive>
                 <v-btn
                     class="ma-2"
                     color="green"
@@ -15,7 +24,20 @@
             </div>
         </v-sheet>
         <ChatMessages></ChatMessages>
-    <!-- </v-app> -->
+        <v-footer
+                height="72"
+                app
+            >
+                <v-text-field
+                bg-color="grey-lighten-1"
+                class="overflow-hidden"
+                density="compact"
+                rounded="pill"
+                variant="solo-filled"
+                flat
+                hide-details
+                ></v-text-field>
+            </v-footer>
 </template>
 <script setup lang="ts">
 import { useMenuState } from '~/data/store/menus.store';

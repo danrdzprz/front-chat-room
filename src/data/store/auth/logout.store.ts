@@ -1,56 +1,38 @@
 import { defineStore } from 'pinia';
-import { RequestStatus } from '~/modules/shared/domain/RequestStatus';
-import type { ResponseFailure } from '~/modules/shared/domain/ResponseFailure';
-import { UseCaseLogout } from '~/modules/shop/auth/application/logout';
-import type { CustomerAuthRepository } from '~/modules/shop/auth/domain/auth.repository.domain';
-import { useFeedBackStore } from '~/store/feedback.store';
+import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+import type { ResponseFailure } from '~/data/modules/shared/domain/ResponseFailure';
+import { apiAuthRepository } from '~/data/modules/auth/infra/api-auth-repository';
+import type { ResponseSuccess } from '~/data/modules/shared/domain/ResponseSuccess';
+import { useCaseLogout } from '~/data/modules/auth/application/logout';
 
-
-// export factory function, factory pattern
-export function useLogoutStore(repository: CustomerAuthRepository) {
-  return defineStore('SHOP_AUTH_LOGOUT',{
-      state: () => {
+export const useLogoutStore = defineStore('AUTH_LOGOUT',{
+      state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,
+          message: null,
+          errors: ''
         }
       },
       getters: {
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async logoutAction() {
-          const feedback = useFeedBackStore();
+        async logout() {
+          const repository = apiAuthRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;
-          return await UseCaseLogout(
+          return await useCaseLogout(
               repository,
             )()
             .then(response => {
               const token = useCookie('token');
-              const user_type = useCookie('user_type');
               token.value = null;
-              user_type.value = null;
-              this.status = RequestStatus.SUCCESS ;
+              this.status = RequestStatus.SUCCESS;
               return response;
             })
-            .catch(error => {
+            .catch( e => {
               this.status = RequestStatus.ERROR ;
-              try {
-                const {errors, message} = error as ResponseFailure;
-                if(errors){
-                  for (const error of errors) {
-                    feedback.openError({message:`${error}`});
-                  }
-                }
-                console.log(error);
-                if(message){
-                  feedback.openError({message:`${message}`});
-                }
-                return errors;
-              } catch (error) {
-                feedback.openError({message:'Error en el servidor'});
-                return null;
-              }
+              this.errors = HandleServerErrors(e);
             });
         },
         setFormStatus( value: RequestStatus ) {
@@ -60,5 +42,4 @@ export function useLogoutStore(repository: CustomerAuthRepository) {
           return this.status = RequestStatus.INITIAL;
         },
       }
-  })();
-}
+  });

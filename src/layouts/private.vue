@@ -4,14 +4,14 @@
             <LayoutPrivateAppBar></LayoutPrivateAppBar>
             <LayoutPrivateLeftMenu></LayoutPrivateLeftMenu>
             <v-main>
-                <v-container fluid class="page-wrapper">
+                <NuxtPage />
+                <!-- <v-container fluid class="page-wrapper">
                     <div class="maxWidth">
-                        <NuxtPage />
                     </div>
-                </v-container>
+                </v-container> -->
             </v-main>
             <LayoutPrivateRightMenu></LayoutPrivateRightMenu>
-            <v-footer
+            <!-- <v-footer
                 height="72"
                 app
             >
@@ -24,7 +24,7 @@
                 flat
                 hide-details
                 ></v-text-field>
-            </v-footer>
+            </v-footer> -->
             <SharedSnackbar/>
         </v-app>
 

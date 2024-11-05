@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
-
+type MenuType = {
+  left_menu: boolean;right_menu: boolean;
+}
 export const useMenuState = defineStore('MENU_STATE', {
-    state: ():{left_menu: boolean;right_menu: boolean} => ({ 
+    state: (): MenuType => ({ 
         left_menu:true,
         right_menu:false,
      }),
@@ -14,7 +16,7 @@ export const useMenuState = defineStore('MENU_STATE', {
         this.right_menu = !this.right_menu;
       },
       toggleLeftMenu() {
-        this.left_menu = !this.right_menu;
+        this.left_menu = !this.left_menu;
       },
     }
 });
