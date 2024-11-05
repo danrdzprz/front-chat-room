@@ -43,7 +43,7 @@ export function apiAuthRepository(): AuthRepository {
 
 	async function logout(): Promise<ResponseSuccess> {
 		return new Promise(async (resolve, reject) => {
-			const response = await request(`/api/logout`,{
+			const response = await request(`/api/me`,{
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
