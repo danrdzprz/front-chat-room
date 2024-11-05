@@ -17,7 +17,7 @@
             <VCol cols="12" sm="12" md="6" lg="6" >
               <div class="text-center">
                 <h1 class="login-text-color">{{ $t('chat.register.title') }}</h1>
-                <p class="login-text-color">Inicia sesión para comenzar</p>
+                <p class="login-text-color">{{ $t('chat.sign_up.subtitle') }}</p>
               </div>
   
               <form autocomplete="on"  @submit.prevent="onSubmit" class="mt-7">
@@ -31,14 +31,7 @@
                     </div>
                   </VCol>
                 </VRow>
-  
-                
               </form>
-              <!-- <p class="text-body-2 mt-5">
-                <NuxtLink to="/signin" class="font-weight-bold text-primary"
-                  >Olvidé mi contraseña</NuxtLink
-                >
-              </p> -->
                 <p class="styled-hyperlink text-subtitle-2 text-high-emphasis text-end">
                 {{ $t('chat.sign_up.text_1') }} <NuxtLink to="/" class="font-weight-bold text-dark text-button">{{ $t('chat.sign_up.text_2') }}</NuxtLink>
                 </p>
@@ -50,8 +43,12 @@
 </template>
 
 <script setup lang="ts">
-  import { useForm } from 'vee-validate';
-    import { ResolverLoginSchema } from '~/data/schemes/auth/login.scheme';
+    import { useForm } from 'vee-validate';
+    import type { RegisterDomain } from '~/data/modules/auth/domain/auth-domain';
+    import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+    import type { Errors } from '~/data/modules/shared/domain/ResponseFailure';
+    import { ResolverRegisterSchema } from '~/data/schemes/auth/register.scheme';
+    import { useRegisterStore } from '~/data/store/auth/register.store';
 
     definePageMeta({
         layout: 'default'
@@ -66,17 +63,28 @@
 
     const { localImage  } = useImageSrc();
 
-    const foo = useFoo();
+    const register_store = useRegisterStore();
 
-    
-
-    const { handleSubmit, handleReset,setErrors,errors,values } = useForm({
-        validationSchema: ResolverLoginSchema(),
+    const { handleSubmit, handleReset,setErrors,errors,values } = useForm<RegisterDomain>({
+        validationSchema: ResolverRegisterSchema(),
     });
 
     const onSubmit = handleSubmit(async values => {
-       
+       await register_store.registerUser(values);
     });
+
+    register_store.$subscribe((mutation, state) => {
+        if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
+            navigateTo('/');
+        }
+        if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.ERROR ){
+        setErrors(register_store.errors as Errors);
+        }
+    });
+
+    onUnmounted(()=>{
+        register_store.$reset();
+    })
 
 
 </script>

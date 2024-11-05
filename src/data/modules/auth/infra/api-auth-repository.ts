@@ -1,6 +1,6 @@
 import type { ResponseFailure } from '../../shared/domain/ResponseFailure';
 import type { ResponseSuccess } from '../../shared/domain/ResponseSuccess';
-import type { AuthSuccessDomain, LoginDomain, MeDomain } from '../domain/auth-domain';
+import type { AuthSuccessDomain, LoginDomain, MeDomain, RegisterDomain } from '../domain/auth-domain';
 import type { AuthRepository } from '../domain/auth-repository.domain';
 import { request } from '~/utils/http-common';
 
@@ -57,9 +57,28 @@ export function apiAuthRepository(): AuthRepository {
 		});
 	}
 
+	async function register(data: RegisterDomain): Promise<ResponseSuccess> {
+		return new Promise(async (resolve, reject) => {
+			const response = await request(`/api/register`,{
+				method: 'POST',
+				body: JSON.stringify(data),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			if(response.ok){
+				resolve(await response.json() as ResponseSuccess);
+			}else{
+				reject( await response.json() as ResponseFailure);
+			}
+		});
+
+	}
+
 	return {
 		login,
+		register,
 		logout,
-		me
+		me,
 	};
 }

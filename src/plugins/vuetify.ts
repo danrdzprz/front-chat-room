@@ -2,7 +2,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { VDataTable } from "vuetify/components/VDataTable";
-import { MAIN_THEME, mainDarkTheme, mainTheme, shopTheme } from "../utils/vuetify-theme";
+import { MAIN_THEME, mainDarkTheme, mainTheme } from "../utils/vuetify-theme";
 import { defaults } from "../utils/vuetify-defaults";
 import { mdi } from 'vuetify/iconsets/mdi';
 import { es } from 'vuetify/locale';
@@ -28,7 +28,6 @@ export default defineNuxtPlugin((app) => {
         themes: {
             mainTheme,
             mainDarkTheme,
-            shopTheme
         },
         variations: {
             colors: ["primary", "secondary"],

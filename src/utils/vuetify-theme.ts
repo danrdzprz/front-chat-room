@@ -37,46 +37,6 @@ export const mainTheme: ThemeDefinition = {
   },
 };
 
-export const shopTheme: ThemeDefinition = {
-  dark: false,
-  
-  colors: {
-    // primary: "#545eb9",
-    // primary: "#545eb9",
-    // lightprimary:"#8d98ff",
-    // secondary: "#28a859",
-    primary: "#ffdf31",
-    lightprimary:"#8d98ff",
-    secondary: "#444444",
-    accent: '#c2a925',
-    success: "#4caf50",
-    error: '#de0000',
-    info: '#2196F3',
-    warning: "#F44336",
-    white: "#fff",
-    caution: "#ffb40a",
-    loginText: "#000929",
-    cautionButton: "#FFB300",
-    line: "#d9d9d9",
-    inputsBackground: "#f0f0f0",
-    normalText: "#000000",
-    customBlue: "#003143",
-    background: "#f7f7f7",
-    sidebarPrimary: "#3e4095",
-    // #343e9e
-    // #3e4297
-    sidebarDetail1: "#363838",
-    sidebarDetail2: "#3e4040",
-    sidebarDetail3: "#454747",
-    sidebarDetail4: "#4a4c4c",
-    sidebarText: "#FFFFFF",
-    sidebarTextActive: "#000000",
-    inputBackground:"e6e9ee",
-    tableHeaderColor:"#545eb9"
-
-  },
-};
-
 // String that represents the name of the dark theme I am using
 export const MAIN_DARK_THEME = "mainDarkTheme";
 // Dark mode theme

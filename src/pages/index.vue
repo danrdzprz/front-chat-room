@@ -16,8 +16,8 @@
           <VRow no-gutters align="center" justify="center">
             <VCol cols="12" sm="12" md="6" lg="6" >
               <div class="text-center">
-                <h1 class="login-text-color">{{ $t('chat.sign_up.text_1') }}</h1>
-                <p class="login-text-color">Inicia sesión para comenzar</p>
+                <h1 class="login-text-color">{{ $t('chat.sign_up.title') }}</h1>
+                <p class="login-text-color">{{ $t('chat.sign_up.subtitle') }}</p>
               </div>
   
               <form autocomplete="on"  @submit.prevent="onSubmit" class="mt-7">

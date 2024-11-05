@@ -1,64 +1,38 @@
 import { defineStore } from 'pinia';
-import type { AuthSuccess } from '~/modules/auth/domain/AuthSucces';
-import { RequestStatus } from '~/modules/shared/domain/RequestStatus';
-import type { ResponseFailure } from '~/modules/shared/domain/ResponseFailure';
-import type { ResponseSuccess } from '~/modules/shared/domain/ResponseSucces';
-import { UseCaseRegister } from '~/modules/shop/auth/application/register';
-import type { RegisterCustomer } from '~/modules/shop/auth/domain/auth.domain';
-import type { CustomerAuthRepository } from '~/modules/shop/auth/domain/auth.repository.domain';
-import { useFeedBackStore } from '~/store/feedback.store';
-// export factory function, factory pattern
-export function useRegisterStore(repository: CustomerAuthRepository) {
-  return defineStore('SHOP_AUTH_REGISTER',{
-      state: ():{status: RequestStatus, message:  ResponseSuccess | ResponseFailure | null, errors: ResponseFailure["errors"]} => {
+import type { RegisterDomain } from '~/data/modules/auth/domain/auth-domain';
+import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+import type { ResponseFailure } from '~/data/modules/shared/domain/ResponseFailure';
+import { apiAuthRepository } from '~/data/modules/auth/infra/api-auth-repository';
+import type { ResponseSuccess } from '~/data/modules/shared/domain/ResponseSuccess';
+import { useCaseRegister } from '~/data/modules/auth/application/register';
+
+export const useRegisterStore = defineStore('AUTH_REGISTER',{
+      state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,
           message: null,
-          errors:[]
+          errors: ''
         }
       },
       getters: {
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async registerCustomer(data: RegisterCustomer) {
-          const feedback = useFeedBackStore();
+        async registerUser(data: RegisterDomain) {
+          const repository = apiAuthRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;
-          return await UseCaseRegister(
+          return await useCaseRegister(
               repository,
             )(data)
             .then(response => {
-              const token = useCookie('token');
-              token.value = (response as AuthSuccess).token;
-              this.status = RequestStatus.SUCCESS ;
+              this.status = RequestStatus.SUCCESS;
+              this.message = HandleSuccessResponse(response);
               return response;
             })
-            .catch(error => {
+            .catch( e => {
               this.status = RequestStatus.ERROR ;
-              try {
-                this.message = error as ResponseFailure;
-                const {errors, message} = error as ResponseFailure;
-                if(errors){
-                  for (const key in errors) {
-                    if (Object.prototype.hasOwnProperty.call(errors, key)) {
-                      const element = errors[key];
-                      for (const msg of element) {
-                        feedback.openError({message:`${msg}`});
-                      }
-                    }
-                  }
-                  this.errors = errors;
-                }
-                if(message){
-                  this.errors = [ message ]
-                  // feedback.openError({message:`${message}`});
-                }
-                return errors;
-              } catch (error) {
-                feedback.openError({message:'Error en el servidor'});
-                return null;
-              }
+              this.errors = HandleServerErrors(e);
             });
         },
         setFormStatus( value: RequestStatus ) {
@@ -68,5 +42,4 @@ export function useRegisterStore(repository: CustomerAuthRepository) {
           return this.status = RequestStatus.INITIAL;
         },
       }
-  })();
-}
+  });

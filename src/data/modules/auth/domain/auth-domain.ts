@@ -5,6 +5,14 @@ export interface LoginDomain {
     password: string;
 }
 
+export interface RegisterDomain {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
+
 export interface AuthSuccessDomain  {
     access_token: string;
 }
