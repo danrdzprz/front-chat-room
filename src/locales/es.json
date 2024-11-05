@@ -17,9 +17,18 @@
       "title":"Selecciona una fecha"
     }
   },
-  "shop":{
+  "chat":{
     "register":{
-      "title":"Crear cuenta"
+      "title":"Bienvenido",
+      "text_1":"No tienes una cuenta?",
+      "text_2":"Regístrate",
+      "register_button":"Registrar"
+    },
+    "sign_up":{
+      "title":"Bienvenido",
+      "text_1":"Ya tienes cuenta?",
+      "text_2":"Inicia sesión",
+      "sign_up_button":"Ingresar"
     },
     "quotations":{
       "title":"Cotizador",

@@ -16,28 +16,31 @@
           <VRow no-gutters align="center" justify="center">
             <VCol cols="12" sm="12" md="6" lg="6" >
               <div class="text-center">
-                <h1 class="login-text-color">{{ $t('chat.sign_up.text_1') }}</h1>
+                <h1 class="login-text-color">{{ $t('chat.register.title') }}</h1>
                 <p class="login-text-color">Inicia sesión para comenzar</p>
               </div>
   
               <form autocomplete="on"  @submit.prevent="onSubmit" class="mt-7">
-                <FormsLogin></FormsLogin>
-  
-               
+                <FormsRegister></FormsRegister>
                 
                 <VRow>
                   <VCol>
                     <div>
                       <VBtn 
-                      type="submit" block min-height="44" class="gradient primary" color="primary" rounded="xl">{{ $t('chat.sign_up.sign_up_button') }}</VBtn>
+                      type="submit" block min-height="44" class="gradient primary" color="primary" rounded="xl">{{ $t('chat.register.register_button') }}</VBtn>
                     </div>
                   </VCol>
                 </VRow>
   
                 
               </form>
+              <!-- <p class="text-body-2 mt-5">
+                <NuxtLink to="/signin" class="font-weight-bold text-primary"
+                  >Olvidé mi contraseña</NuxtLink
+                >
+              </p> -->
                 <p class="styled-hyperlink text-subtitle-2 text-high-emphasis text-end">
-                {{ $t('chat.register.text_1') }} <NuxtLink to="/register" class="font-weight-bold text-dark text-button">{{ $t('chat.register.text_2') }}</NuxtLink>
+                {{ $t('chat.sign_up.text_1') }} <NuxtLink to="/" class="font-weight-bold text-dark text-button">{{ $t('chat.sign_up.text_2') }}</NuxtLink>
                 </p>
             </VCol>
           </VRow>
@@ -47,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useForm } from 'vee-validate';
+  import { useForm } from 'vee-validate';
     import { ResolverLoginSchema } from '~/data/schemes/login.scheme';
 
     definePageMeta({
