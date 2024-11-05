@@ -7,11 +7,11 @@ import { apiAuthRepository } from '~/data/modules/auth/infra/api-auth-repository
 import { useCaseLogin } from '~/data/modules/auth/application/login';
 
 export const useLoginStore = defineStore('SHOP_AUTH_LOGIN',{
-      state: ():{status: RequestStatus, message:  AuthSuccessDomain | null, errors: ResponseFailure["errors"]}=> {
+      state: ():{status: RequestStatus, message:  AuthSuccessDomain | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,
           message: null,
-          errors: []
+          errors: ''
         }
       },
       getters: {
@@ -38,25 +38,25 @@ export const useLoginStore = defineStore('SHOP_AUTH_LOGIN',{
               this.status = RequestStatus.SUCCESS;
               return response;
             })
-            .catch(error => {
+            .catch( e => {
               this.status = RequestStatus.ERROR ;
               try {
-                const {errors, message} = error as ResponseFailure;
-                if(errors){
-                  for (const key in errors) {
-                    if (Object.prototype.hasOwnProperty.call(errors, key)) {
-                      const element = errors[key];
+                const {message, error, statusCode} = e as ResponseFailure;
+                if(message && typeof message === 'object' && message !== null){
+                  for (const key in message) {
+                    if (Object.prototype.hasOwnProperty.call(message, key)) {
+                      const element = message[key];
                       for (const msg of element) {
                         feedback.openError({message:`${msg}`});
                       }
                     }
                   }
-                  this.errors = errors;
+                  this.errors = message;
                 }
-                if(message){
-                  this.errors = [ message ]
+                if(message && typeof message === 'string' && message !== null){
+                  feedback.openError({message:`${message}`});
                 }
-                return errors;
+                return message;
               } catch (error) {
                 feedback.openError({message:'Error en el servidor'});
                 return null;

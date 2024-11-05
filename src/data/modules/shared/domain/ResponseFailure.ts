@@ -1,5 +1,9 @@
+export interface Errors{
+    [key: string]: string[];
+}
+
 export interface ResponseFailure {
-    errors?: string[];
-    message?: string;
-    code?: number;
+    error: string;
+    message: string | Errors;
+    statusCode: number;
 }
