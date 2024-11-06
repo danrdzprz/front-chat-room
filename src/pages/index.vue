@@ -48,6 +48,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
 import { useForm } from 'vee-validate';
 import type { LoginDomain } from '~/data/modules/auth/domain/auth-domain';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
@@ -62,12 +63,11 @@ import { useLoginStore } from '~/data/store/auth/login.store';
         title: 'Chat Room || Iniciar sesión'
     })
 
-
-    const router = useRouter()
-
     const { localImage  } = useImageSrc();
 
     const login_store = useLoginStore();
+    
+    const { $io } : { $io: Socket} = useNuxtApp();
 
     const { handleSubmit, handleReset,setErrors,errors,values } = useForm<LoginDomain>({
         validationSchema: ResolverLoginSchema(),
@@ -80,10 +80,11 @@ import { useLoginStore } from '~/data/store/auth/login.store';
 	login_store.$subscribe(async(mutation, state) => {
 		if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
 			if ("PasswordCredential" in window) {
-			let credential = new PasswordCredential({
-				id: values.email,
-				password: values.password,
-			});
+        // @ts-ignore
+        let credential = new PasswordCredential({
+          id: values.email,
+          password: values.password,
+        });
 
 			navigator.credentials.store(credential).then(
 				() => {
@@ -94,6 +95,13 @@ import { useLoginStore } from '~/data/store/auth/login.store';
 				},
 			);
 			}
+
+      const token = useCookie('token'); // get token from cookies
+      if(token.value){
+        $io.auth = {token : `Bearer ${token.value}`};
+        $io.connect();
+      }
+      
 			reloadNuxtApp({
 				path: `/chat`
 			});

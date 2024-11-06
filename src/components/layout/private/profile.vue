@@ -38,12 +38,14 @@
 </template>
 
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 import { useLogoutStore } from '~/data/store/auth/logout.store';
 import { useMeStore } from '~/data/store/auth/me.store';
 
 const logout_store = useLogoutStore();
 const me_store = useMeStore();
+const { $io } : { $io: Socket} = useNuxtApp();
 
 const logout = async() => {
   await logout_store.logout();
@@ -52,6 +54,9 @@ const logout = async() => {
 logout_store.$subscribe((mutation, state) => {
   if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
     navigateTo('/');
+    $io.auth = {};
+    $io.disconnect();
+    $io.close();
   }
 });
 
