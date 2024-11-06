@@ -27,7 +27,10 @@ export const useListMessage =
       },
       actions: {
         appendToList(data: DetailMessageDomain){
-          this.list = [...this.list, data];
+          const index = this.list.findIndex( (element, x )=> element._id===data._id);
+          if (index < 0) {
+            this.list = [...this.list, data];
+          }
         },
         remove(id: string){
           const index = this.list.findIndex( (element, x )=> element._id===id);

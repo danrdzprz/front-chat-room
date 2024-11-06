@@ -27,7 +27,10 @@ export const useListChatRoom =
       },
       actions: {
         appendToList(data: DetailChatRoomDomain){
-          this.list = [data,...this.list];
+          const index = this.list.findIndex( (element, x )=> element._id===data._id);
+          if (index < 0) {
+            this.list = [data,...this.list];
+          }
         },
         remove(id: string){
           const index = this.list.findIndex( (element, x )=> element._id===id);

@@ -217,7 +217,7 @@ const store_user = useMeStore();
         cursorToEnd();
     })
     onUnmounted(async() => {
-        $io.emit('leave-chat-room', props.chatRoom);
+        // $io.emit('leave-chat-room', props.chatRoom);
         list_message_store.$reset();
     });
 

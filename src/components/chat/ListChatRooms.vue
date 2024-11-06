@@ -74,8 +74,14 @@ import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataTy
     }
 
     onMounted(()=>{
-        listenNotification();
+      list_chat_room_store.$reset();
+      listenNotification();
     })
+
+    onUnmounted(async() => {
+        // $io.emit('leave-chat-room', props.chatRoom);
+        list_chat_room_store.$reset();
+    });
 
 
 </script>
