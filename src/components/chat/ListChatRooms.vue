@@ -5,9 +5,10 @@
     @load="(data: loadType)=>load(data)"
   >
     <v-list>
-        <template v-for="(item, index) in list_chat_room_store.list" :key="item">
+        <template v-for="(item, index) in list_chat_room_store.list" :key="index">
             <v-list-item
                 link
+                :to="`/chat/room/${item._id}`"
                 :title="`${ item.name }`" 
             ></v-list-item>
         </template>
