@@ -2,7 +2,6 @@
     <v-container class="mt-15" fluid>
 
         <v-infinite-scroll
-            height="710"
             side="start"
             @load="(data: LoadType)=>load(data)"
         >
@@ -199,20 +198,19 @@ const store_user = useMeStore();
     }
 
     const listenNotification = () => {
-        $io.on("new-message", (payload: DetailMessageDomain) => {
-          console.log(payload);
-          list_message_store.appendToList(payload);
-          cursorToEnd();
-        });
-
-        $io.on("delete-message", (payload: DetailMessageDomain) => {
-          console.log(payload);
-          list_message_store.remove(payload._id);
-        });
+        if(!$io.hasListeners(`new-message-${props.chatRoom}`)){
+            $io.on(`new-message-${props.chatRoom}`, (payload: DetailMessageDomain) => {
+              list_message_store.appendToList(payload);
+              cursorToEnd();
+            });
+    
+            $io.on(`delete-message-${props.chatRoom}`, (payload: DetailMessageDomain) => {
+              list_message_store.remove(payload._id);
+            });
+        }
     }
 
     onMounted(()=>{
-        $io.emit('join-chat-room', props.chatRoom);
         listenNotification();
         cursorToEnd();
     })

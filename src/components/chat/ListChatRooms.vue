@@ -19,9 +19,10 @@
 </template>
 <script setup lang="ts">
   import type { Socket } from 'socket.io-client';
-import type { DetailChatRoomDomain } from '~/data/modules/chat-rooms/domain/chat-room.domain';
-import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
+  import type { DetailChatRoomDomain } from '~/data/modules/chat-rooms/domain/chat-room.domain';
+  import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
   import type { PaginationOptionsDomain } from '~/data/modules/shared/domain/PaginationOptions';
+  import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
   import { useListChatRoom } from '~/data/store/chat-room/list.store';
 
     const list_chat_room_store = useListChatRoom();
@@ -65,13 +66,23 @@ import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataTy
     const listenNotification = () => {
         $io.on("new-chat-room", (payload: DetailChatRoomDomain) => {
           list_chat_room_store.appendToList(payload);
+            $io.emit('join-chat-room', payload._id);
         });
 
         $io.on("delete-chat-room", (payload: DetailChatRoomDomain) => {
-          console.log(payload);
+          $io.emit('leave-chat-room', payload._id);
           list_chat_room_store.remove(payload._id);
         });
     }
+
+    list_chat_room_store.$subscribe((mutation, state) => {
+    if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
+        list_chat_room_store.list.forEach(x=>{
+          $io.emit('join-chat-room', x._id);
+        });
+    }
+    
+});
 
     onMounted(()=>{
       list_chat_room_store.$reset();
@@ -79,7 +90,6 @@ import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataTy
     })
 
     onUnmounted(async() => {
-        // $io.emit('leave-chat-room', props.chatRoom);
         list_chat_room_store.$reset();
     });
 
