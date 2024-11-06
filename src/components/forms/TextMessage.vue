@@ -5,7 +5,7 @@
                 name="text"
                 type="text"
                 @send-text="onSubmit"
-                @send-file="$emit('sendFile',true)"
+                :loading="store_text_message.status === RequestStatus.LOADING"
             >
             </InputsTextMessageInput>
         </form>
@@ -29,23 +29,22 @@ const props = withDefaults(
 
 const store_text_message = useCreateTextMessage();
 
+defineEmits(['sendFile', 'sendText']);
+
 const { handleSubmit, handleReset,setErrors } = useForm<CreateTextMessageDomain>({
         validationSchema: ResolverTextMessageSchema(),
 });
 
 const onSubmit = handleSubmit(async values => {
     await store_text_message.sendMessage(props.chatRoom, values);
-
 });
 
-defineEmits(['sendFile', 'sendMessage']);
 
 
 store_text_message.$subscribe((mutation, state) => {
+    console.log(state.status);
     if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
         handleReset();
-        console.log('here');
-        store_text_message.$reset();
     }
     if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.ERROR ){
         setErrors(store_text_message.errors as Errors);

@@ -9,17 +9,15 @@ export const RecordSchema = z.object({
     // file: z.string().optional(),
     file: z
                         .any()
-                        // .refine((files) => files?.length > 1, "Al menos una imágen es requerida.")
-                        .refine((files) => files?.length == 1, "Solo una imágen es requerida.")
-                        .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `El tamaño máximo del archivo es 5 MB`)
+                        .refine((files) => files?.size <= MAX_FILE_SIZE, `El tamaño máximo del archivo es 5 MB`)
                         .refine(
-                        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+                        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.type),
                         ".jpg, .jpeg, .png y .webp son extensiones válidas."
                         )
                         ,
 });
 
 
-export const ResolverImageMessageSchema = () =>{
+export const ResolverFileMessageSchema = () =>{
     return toTypedSchema(RecordSchema);
 } 

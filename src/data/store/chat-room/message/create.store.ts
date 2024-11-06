@@ -19,8 +19,8 @@ export const useCreateTextMessage = defineStore('TEXT_MESSAGE_CREATE',{
       },
       actions: {
         async sendMessage(chat_room: string, data: CreateTextMessageDomain) {
-          const repository = ApiMessageRepository();
           this.$reset();
+          const repository = ApiMessageRepository();
           this.status = RequestStatus.LOADING ;
           return await useCaseCreateTextMessage(
               repository,
@@ -32,13 +32,7 @@ export const useCreateTextMessage = defineStore('TEXT_MESSAGE_CREATE',{
             .catch( e => {
               this.status = RequestStatus.ERROR ;
               this.errors = HandleServerErrors(e);
-            });
-        },
-        setFormStatus( value: RequestStatus ) {
-          return this.status = value;
-        },
-        resetForm() {
-          return this.status = RequestStatus.INITIAL;
+          });
         },
       }
   });

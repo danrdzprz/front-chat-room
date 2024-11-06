@@ -37,8 +37,8 @@
             >
             </InputsTextMessageInput>
         </form> -->
-            <FormsTextMessage :chat-room="record_id" @send-file="() => toggle_form = !toggle_form" v-if="toggle_form"></FormsTextMessage>
-            <FormsFileMessage :chat-room="record_id" @send-text="() => toggle_form = !toggle_form" v-else></FormsFileMessage>
+            <FormsFileMessage :chat-room="record_id"></FormsFileMessage>
+            <FormsTextMessage :chat-room="record_id"></FormsTextMessage>
             <!-- <v-text-field
             bg-color="grey-lighten-1"
             class="overflow-hidden"
@@ -75,27 +75,6 @@ const route = useRoute();
 const record_id = route.params.id as string;
 
 const store_chatroom_detail = useDetailChatRoom();
-
-const store_text_message = useCreateTextMessage();
-
-const { handleSubmit, handleReset,setErrors,errors,values } = useForm<CreateTextMessageDomain>({
-        validationSchema: ResolverTextMessageSchema(),
-});
-
-const onSubmit = handleSubmit(async values => {
-    await store_text_message.sendMessage(record_id, values);
-
-});
-
-store_text_message.$subscribe((mutation, state) => {
-    if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
-        handleReset();
-        store_text_message.$reset();
-    }
-    if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.ERROR ){
-        setErrors(store_text_message.errors as Errors);
-    }
-});
 
 const menu = useMenuState();
 

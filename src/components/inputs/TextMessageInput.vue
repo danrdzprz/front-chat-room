@@ -12,7 +12,6 @@
         class="custom-text-field"
         @input="handleChange"
         :append-inner-icon="value ? 'mdi-send' : ''"
-        prepend-icon="mdi-paperclip-plus"
         clear-icon="mdi-close-circle"
         label="Message"
         type="text"
@@ -20,6 +19,7 @@
         @click:append-inner="()=> $emit('sendText',true)"
         @click:clear="clearMessage"
         @click:prepend="()=> $emit('sendFile',true)"
+        :loading="loading"
     ></VTextField>
 </template>
 <script setup>
@@ -30,6 +30,7 @@ const props = defineProps({
   label: String,
   type: String,
   hint: String,
+  loading: Boolean,
   required:{
     type: Boolean,
     required: false,

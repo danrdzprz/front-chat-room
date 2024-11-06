@@ -150,6 +150,7 @@ const store_user = useMeStore();
         page.value = page.value + 1;
         const last_item_index = itemRefs.value.length - 1; 
         if(last_item_index > -1 ){
+            // @ts-ignore
             (itemRefs.value[last_item_index]?.$el as HTMLDivElement).scrollIntoView({ behavior: 'smooth' })
         }
         data.done('ok')

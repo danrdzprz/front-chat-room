@@ -19,6 +19,7 @@ export const useCreateFileMessage = defineStore('FILE_MESSAGE_CREATE',{
       },
       actions: {
         async sendMessage(chat_room: string, data: CreateFileMessageDomain) {
+          console.log(data);
           const repository = ApiMessageRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;
