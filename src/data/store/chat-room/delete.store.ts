@@ -17,7 +17,7 @@ export const useDeleteChatRoom = defineStore('CHAT_ROOM_DELETE',{
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async registerUser(id: string) {
+        async remove(id: string) {
           const repository = ApiChatRoomRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;

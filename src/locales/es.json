@@ -11,7 +11,8 @@
     "register":"Registrar",
     "export":"Exportar",
     "forget_password":"Olvidé mi contraseña",
-    "new_chat_room":" Nueva sala"
+    "new_chat_room":" Nueva sala",
+    "delete":"Eliminar"
   },
   "inputs":{
     "datepicker":{

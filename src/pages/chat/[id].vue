@@ -3,7 +3,7 @@
         class="mx-auto sticky-chat-menu"
     >   
         <div class="d-flex align-center justify-space-between">
-            <h3 class="ml-5">{{ user.fullName }}</h3>
+            <h3 class="ml-5">{{ store_chatroom_detail.data.name }}</h3>
             <v-responsive max-width="300">
             <v-text-field
                 bg-color="grey-lighten-1"
@@ -40,8 +40,8 @@
         </v-footer>
 </template>
 <script setup lang="ts">
+import { useDetailChatRoom } from '~/data/store/chat-room/detail.store';
 import { useMenuState } from '~/data/store/menus.store';
-
 
 definePageMeta({
     layout: 'private'
@@ -51,15 +51,19 @@ useHead({
     title: 'Chat Room'
 });
 
+const route = useRoute();
+
+const record_id = route.params.id as string;
+
+const store_chatroom_detail = useDetailChatRoom();
 
 const menu = useMenuState();
 
+onMounted(async ()=>{
+    await store_chatroom_detail.getDetail(record_id);
+});
 
-const user = {
-    initials: 'JD',
-    fullName: 'John Doe',
-    email: 'john.doe@doe.com',
-}
+
 </script>
 <style lang="scss">
 .sticky-chat-menu{

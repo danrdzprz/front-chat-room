@@ -20,7 +20,7 @@ export const useDetailChatRoom =
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async getMe(id: string) {
+        async getDetail(id: string) {
           const repository = ApiChatRoomRepository();
           this.$reset();
           this.status = RequestStatus.LOADING;

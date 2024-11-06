@@ -8,7 +8,7 @@
         <template v-for="(item, index) in list_chat_room_store.list" :key="index">
             <v-list-item
                 link
-                :to="`/chat/room/${item._id}`"
+                :to="`/chat/${item._id}`"
                 :title="`${ item.name }`" 
             ></v-list-item>
         </template>
