@@ -35,6 +35,6 @@
     import { useMeStore } from '~/data/store/auth/me.store';
     const me_store = useMeStore(); // use authenticateUser action from  auth store
     onMounted(async() => {
-       const data =  await me_store.getMe();
+       await me_store.getMe();
     });
 </script>

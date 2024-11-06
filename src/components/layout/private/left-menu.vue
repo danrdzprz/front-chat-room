@@ -7,14 +7,15 @@
                     </v-btn>
                 </div>
             </template>
-            <v-list>
+            <ChatListChatRooms></ChatListChatRooms>
+            <!-- <v-list>
             <v-list-item
                 v-for="n in 20"
                 :key="n"
                 :title="`Item ${ n }`"
                 link
             ></v-list-item>
-            </v-list>
+            </v-list> -->
             
         </v-navigation-drawer>
         <DialogsForStore v-model:model-value="dialog" :title="$t('general.new_chat_room')">
@@ -55,7 +56,7 @@ import { useMenuState } from '~/data/store/menus.store';
     const dialog = shallowRef<boolean>(false);
 
     const register_chatroom_store = useCreateChatRoom();
-
+    
     const { handleSubmit, handleReset,setErrors,errors,values } = useForm<CreateChatRoomDomain>({
         validationSchema: ResolverCreateChatRoomSchema(),
     });
