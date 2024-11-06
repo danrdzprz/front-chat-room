@@ -69,7 +69,7 @@
                             <template v-slot:activator="{ props }">
                                 <v-card color="primary" class="flex-none">
                                     <v-card-text class="white--text pa-2 d-flex flex-column">
-                                            <div class="d-flex align-center justify-start">
+                                            <div class="d-flex align-center justify-space-between">
                                                 <v-btn 
                                                     variant="flat" 
                                                     color="primary" 
@@ -78,6 +78,7 @@
                                                     v-bind="props"
                                                     :loading="store_delete_message.status === RequestStatus.LOADING" 
                                                 ></v-btn>
+                                                <small class="text-caption">{{item.owner.name}} </small>        
                                             </div>
                                             <div class="ma-4" v-if="item.file_path && item.file_url">
                                                 <v-img

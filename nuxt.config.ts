@@ -34,7 +34,7 @@ export default defineNuxtConfig({
       },
     },
   },
-
+  plugins: ['~/plugins/socket.client'],
   runtimeConfig: {
     public: {
       API_ENDPOINT: process.env.NUXT_API_ENDPOINT,

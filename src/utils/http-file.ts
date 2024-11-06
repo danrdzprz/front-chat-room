@@ -1,6 +1,6 @@
 export const requestFile = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>{
 
-    const runtimeConfig = useRuntimeConfig()
+    const runtimeConfig = useRuntimeConfig();
     const token = useCookie('token'); // useCookie new hook in nuxt 3
     const user_type = useCookie('user_type');
     const config = {...init}
