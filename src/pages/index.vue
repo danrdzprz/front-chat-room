@@ -29,7 +29,7 @@
                   <VCol>
                     <div>
                       <VBtn 
-					  :loading="login_store.status === RequestStatus.LOADING"
+					            :loading="login_store.status === RequestStatus.LOADING"
                       type="submit" block min-height="44" class="gradient primary" color="primary" rounded="xl">{{ $t('chat.sign_up.sign_up_button') }}</VBtn>
                     </div>
                   </VCol>

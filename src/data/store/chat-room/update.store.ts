@@ -6,7 +6,7 @@ import { ApiChatRoomRepository } from '~/data/modules/chat-rooms/infra/api-chat-
 import type { UpdateChatRoomDomain } from '~/data/modules/chat-rooms/domain/chat-room.domain';
 import { useCaseUpdateChatRoom } from '~/data/modules/chat-rooms/application/use-case-update';
 
-export const useCreateChatRoomUpdate = defineStore('CHAT_ROOM_UPDATE',{
+export const useUpdateChatRoom = defineStore('CHAT_ROOM_UPDATE',{
       state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,

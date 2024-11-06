@@ -5,7 +5,7 @@ import type { ResponseSuccess } from '~/data/modules/shared/domain/ResponseSucce
 import { ApiChatRoomRepository } from '~/data/modules/chat-rooms/infra/api-chat-room-repository';
 import { useCaseDeleteChatRoom } from '~/data/modules/chat-rooms/application/use-case-delete';
 
-export const useCreateChatRoomDelete = defineStore('CHAT_ROOM_DELETE',{
+export const useDeleteChatRoom = defineStore('CHAT_ROOM_DELETE',{
       state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,

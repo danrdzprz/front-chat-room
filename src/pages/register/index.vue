@@ -27,6 +27,7 @@
                   <VCol>
                     <div>
                       <VBtn 
+					            :loading="register_store.status === RequestStatus.LOADING"
                       type="submit" block min-height="44" class="gradient primary" color="primary" rounded="xl">{{ $t('chat.register.register_button') }}</VBtn>
                     </div>
                   </VCol>

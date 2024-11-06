@@ -4,7 +4,7 @@ import type { DetailChatRoomDomain } from '~/data/modules/chat-rooms/domain/chat
 import { ApiChatRoomRepository } from '~/data/modules/chat-rooms/infra/api-chat-room-repository';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 
-export const useCreateChatRoomDetail =
+export const useDetailChatRoom =
    defineStore('CHAT_ROOM_DETAIL',{
       state: ():{status: RequestStatus, data: DetailChatRoomDomain}=> {
         return {

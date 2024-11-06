@@ -25,11 +25,6 @@ import { useMenuState } from '~/data/store/menus.store';
 
     const menu = useMenuState();
 
-    const user = {
-        initials: 'JD',
-        fullName: 'John Doe',
-        email: 'john.doe@doe.com',
-    }
 </script>
 <style lang="scss">
 

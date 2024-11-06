@@ -10,7 +10,8 @@
     "required":"* Campos requeridos",
     "register":"Registrar",
     "export":"Exportar",
-    "forget_password":"Olvidé mi contraseña"
+    "forget_password":"Olvidé mi contraseña",
+    "new_chat_room":" Nueva sala"
   },
   "inputs":{
     "datepicker":{
