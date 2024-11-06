@@ -11,21 +11,28 @@
                     <v-col class="d-flex align-center" v-if="item.owner._id != store_user.me_data._id">
                         <v-card color="success" class="flex-none">                        
                             <v-card-text class="white--text pa-2 d-flex flex-column">
-                            <span class="text-caption">{{item.owner.name}} </span>                                                 
-                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
-                            <span class="text-caption font-italic align-self-end">{{
-                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                            }}</span> 
+                                <span class="text-caption">{{item.owner.name}} </span>                                                 
+                                <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                                <span class="text-caption font-italic align-self-end">{{
+                                    new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                                }}</span> 
                             </v-card-text>
                         </v-card>      
                     </v-col>
                     <v-col v-else class="d-flex align-center justify-end" >
                         <v-card color="primary" class="flex-none">
-                        <v-card-text class="white--text pa-2 d-flex flex-column">                                                                           
-                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
-                            <span class="text-caption font-italic align-self-end">{{
-                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                            }}</span> 
+                        <v-card-text class="white--text pa-2 d-flex flex-column">
+                                <div class="ma-4" v-if="item.file_path && item.file_url">
+                                    <v-img
+                                        :aspect-ratio="1"
+                                        :src="item.file_url"
+                                        cover
+                                    ></v-img>
+                                </div>                                                                           
+                                <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                                <span class="text-caption font-italic align-self-end">{{
+                                    new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                                }}</span> 
                         </v-card-text>
                         </v-card>
                     </v-col>
