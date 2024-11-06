@@ -9,96 +9,113 @@
             <template v-for="(item, index) in list_message_store.list" :key="index">
                 <v-row ref="itemRefs">
                     <v-col class="d-flex align-center" v-if="item.owner._id != store_user.me_data._id">
-                        <v-card color="success" class="flex-none">                        
-                            <v-card-text class="white--text pa-2 d-flex flex-column">
-                                <span class="text-caption">{{item.owner.name}} </span>                                                 
-                                <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
-                                <span class="text-caption font-italic align-self-end">{{
-                                    new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                                }}</span> 
-                            </v-card-text>
-                        </v-card>      
+                        <v-menu
+                            open-on-hover
+                            location="right"
+                            >
+                            <template v-slot:activator="{ props }">
+                                <v-card color="success" class="flex-none" v-bind="props" > 
+                                    <v-card-text class="white--text pa-2 d-flex flex-column">
+                                        <div class="d-flex align-center justify-space-between">
+                                            <span class="text-caption">{{item.owner.name}} </span>        
+                                            <v-btn 
+                                                variant="flat" 
+                                                color="success" 
+                                                icon="mdi-dots-vertical" 
+                                                size="x-small" 
+                                                v-bind="props"
+                                                :loading="store_delete_message.status === RequestStatus.LOADING" 
+                                            ></v-btn>
+                                        </div>
+                                        <div class="ma-4" v-if="item.file_path && item.file_url">
+                                            <v-img
+                                                :aspect-ratio="1"
+                                                :src="item.file_url"
+                                                cover
+                                            ></v-img>
+                                        </div> 
+                                        <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                                        <span class="text-caption font-italic align-self-end">{{
+                                            new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                                        }}</span> 
+                                    </v-card-text>
+                                </v-card>  
+                            </template>
+
+                                <v-card variant="flat">
+                                    <v-card-text>
+                                        <div class="mx-auto text-center">
+                                            <v-btn color="warning"  
+                                                @click="()=>store_delete_message.remove(item._id)" 
+                                                :loading="store_delete_message.status === RequestStatus.LOADING" 
+                                                variant="outlined" 
+                                                block
+                                                >
+                                                {{ $t('general.delete') }}
+                                            </v-btn>
+                                            
+                                        </div>
+                                    </v-card-text>
+                                </v-card>
+                            </v-menu>
+                            
                     </v-col>
                     <v-col v-else class="d-flex align-center justify-end" >
-                        <v-card color="primary" class="flex-none">
-                        <v-card-text class="white--text pa-2 d-flex flex-column">
-                                <div class="ma-4" v-if="item.file_path && item.file_url">
-                                    <v-img
-                                        :aspect-ratio="1"
-                                        :src="item.file_url"
-                                        cover
-                                    ></v-img>
-                                </div>                                                                           
-                                <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
-                                <span class="text-caption font-italic align-self-end">{{
-                                    new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                                }}</span> 
-                        </v-card-text>
-                        </v-card>
+
+                        <v-menu
+                            open-on-hover
+                            location="left"
+                            >
+                            <template v-slot:activator="{ props }">
+                                <v-card color="primary" class="flex-none">
+                                    <v-card-text class="white--text pa-2 d-flex flex-column">
+                                            <div class="d-flex align-center justify-start">
+                                                <v-btn 
+                                                    variant="flat" 
+                                                    color="primary" 
+                                                    icon="mdi-dots-vertical" 
+                                                    size="x-small" 
+                                                    v-bind="props"
+                                                    :loading="store_delete_message.status === RequestStatus.LOADING" 
+                                                ></v-btn>
+                                            </div>
+                                            <div class="ma-4" v-if="item.file_path && item.file_url">
+                                                <v-img
+                                                    :aspect-ratio="1"
+                                                    :src="item.file_url"
+                                                    cover
+                                                ></v-img>
+                                            </div>                                                                           
+                                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                                            <span class="text-caption font-italic align-self-end">{{
+                                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                                            }}</span> 
+                                    </v-card-text>
+                                    </v-card>   
+                            </template>
+
+                                <v-card variant="flat">
+                                    <v-card-text>
+                                        <div class="mx-auto text-center">
+                                            <v-btn color="warning"  
+                                                @click="()=>store_delete_message.remove(item._id)" 
+                                                :loading="store_delete_message.status === RequestStatus.LOADING" 
+                                                variant="outlined" 
+                                                block
+                                                >
+                                                {{ $t('general.delete') }}
+                                            </v-btn>
+                                            
+                                        </div>
+                                    </v-card-text>
+                                </v-card>
+                            </v-menu>
                     </v-col>
                 </v-row> 
             </template>
             <template v-slot:empty>
             </template>
         </v-infinite-scroll>
-        <!-- <v-row v-for="message in list_message_store.data.data">
-            <v-col class="d-flex align-center" v-if="message.owner._id != store_user.me_data._id">
-                <div>
-                    <v-card color="success" class="flex-none">                        
-                        <v-card-text class="white--text pa-2 d-flex flex-column">
-                        <span class="text-caption">{{message.owner.name}} </span>                                                 
-                        <span class="align-self-start text-subtitle-1">{{ message.text }}</span>
-                        <span class="text-caption font-italic align-self-end">{{
-                            new Date(message.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                        }}</span> 
-                        </v-card-text>
-                    </v-card>      
-                    <div class="arrow-left"></div>
-                    </div>
-            </v-col>
-            <v-col v-else class="d-flex align-center justify-end" >
-                <div class="sent-message">
-                    <v-card color="primary" class="flex-none">
-                    <v-card-text class="white--text pa-2 d-flex flex-column">                                                                           
-                        <span class="align-self-start text-subtitle-1">{{ message.text }}</span>
-                        <span class="text-caption font-italic align-self-end">{{
-                            new Date(message.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
-                        }}</span> 
-                    </v-card-text>
-                    </v-card>
-                </div>
-                <div class="arrow-right"></div>
-            </v-col>
-      </v-row> -->
-      <!-- <v-row v-for="message in messages">
-                <v-col class="d-flex align-center" v-if="message.from != 'You'">
-                    <div>
-                        <v-card color="success" class="flex-none">                        
-                          <v-card-text class="white--text pa-2 d-flex flex-column">
-                            <span class="text-caption">{{message.from}} </span>                                                 
-                            <span class="align-self-start text-subtitle-1">{{ message.message }}</span>
-                            <span class="text-caption font-italic align-self-end">{{
-                              message.time
-                            }}</span> 
-                          </v-card-text>
-                        </v-card>      
-                        <div class="arrow-left"></div>
-                      </div>
-                </v-col>
-                <v-col v-else class="d-flex align-center justify-end" >
-                  <div class="sent-message">
-                      <v-card color="primary" class="flex-none">
-                        <v-card-text class="white--text pa-2 d-flex flex-column">                                                                           
-                          <span class="text-subtitle-1 chat-message">{{ message.message }}</span>
-                          <span class="text-caption font-italic align-self-start">{{
-                            message.time
-                          }}</span> 
-                        </v-card-text>
-                      </v-card>
-                    </div>
-                    <div class="arrow-right"></div>
-                </v-col>
-      </v-row> -->
     </v-container>
 </template>
 
@@ -107,7 +124,8 @@ import { useMeStore } from '~/data/store/auth/me.store';
 import { useListMessage } from '~/data/store/chat-room/message/list.store';
 import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
 import type { PaginationOptionsDomain } from '~/data/modules/shared/domain/PaginationOptions';
-
+import { useDeleteMessage } from '~/data/store/chat-room/message/delete.store';
+import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 const props = withDefaults(
       defineProps<{
           chatRoom: string;
@@ -120,6 +138,7 @@ const itemRefs = ref([]);
 
 
 const list_message_store = useListMessage();
+const store_delete_message = useDeleteMessage();
 const store_user = useMeStore();
 
 
