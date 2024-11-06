@@ -1,5 +1,4 @@
 <template>
-    <div class="d-flex">
       <v-file-input
           :label="label"
           filled
@@ -10,7 +9,6 @@
           flat
           variant="solo"
           v-model="value"
-          append-inner-icon="mdi-file"
           @input="handleChange"
           v-on="validationListeners"
           :error-messages="errorMessage"
@@ -20,25 +18,10 @@
           :accept="accept"
           :hint="hint"
           :persistent-hint="persistentHint"
+          :append-inner-icon="value ? 'mdi-send' : ''"
+          @click:append-inner="()=> $emit('sendFile',true)"
       ></v-file-input>
-      <VBtn
-        v-if="filePath"
-        size="small"
-        variant="text"
-        icon="mdi-image-search"
-        color="info"
-        @click="()=>$emit('showFile',true)" 
-      ></VBtn>
-      <VBtn
-        v-if="filePath"
-        size="small"
-        @click="()=>$emit('deleteFile',true)" 
-        title="Eliminar imágen"
-        variant="text"
-        icon="mdi-delete-outline"
-        color="error"
-      ></VBtn>
-    </div>
+     
     
 </template>
 <script setup>
@@ -57,11 +40,7 @@ const props = defineProps({
       required: false,
       default: '*/*'
   },
-  filePath:{
-      type: String,
-      required: false,
-      default: null
-    },
+  
   hint: String,
   persistentHint:{
     type: Boolean,
@@ -79,8 +58,6 @@ const validationListeners = {
   change: handleChange,
   input: evt => handleChange(evt, !!errorMessage.value),
 };
-
-defineEmits(['deleteFile', 'showFile']);
 
 
 </script> 

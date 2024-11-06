@@ -17,9 +17,9 @@
         label="Message"
         type="text"
         clearable
-        @click:append-inner="()=> $emit('sendMessage',true)"
+        @click:append-inner="()=> $emit('sendText',true)"
         @click:clear="clearMessage"
-        @click:prepend="()=> $emit('sendImage',true)"
+        @click:prepend="()=> $emit('sendFile',true)"
     ></VTextField>
 </template>
 <script setup>
@@ -47,17 +47,12 @@ const { errorMessage, value, handleChange, handleBlur, errors, setValue } = useF
   validateOnValueUpdate: false,
 });
 
-defineEmits(['sendImage', 'sendMessage']);
+defineEmits(['sendFile', 'sendText']);
 
-  function sendMessage () {
-      resetIcon()
-      clearMessage()
-  }
   function clearMessage () {
     setValue('');
   }
-  function sendImage () {
-  }
+  
 
 const validationListeners = {
   blur: evt => handleBlur(evt, true),

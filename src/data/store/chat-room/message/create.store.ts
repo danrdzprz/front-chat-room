@@ -6,7 +6,7 @@ import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 import type { ResponseFailure } from '~/data/modules/shared/domain/ResponseFailure';
 import type { ResponseSuccess } from '~/data/modules/shared/domain/ResponseSuccess';
 
-export const useCreateTextMessage = defineStore('FILE_MESSAGE_CREATE',{
+export const useCreateTextMessage = defineStore('TEXT_MESSAGE_CREATE',{
       state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,

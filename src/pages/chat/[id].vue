@@ -28,22 +28,17 @@
             height="100"
             app
     >
-        <form id="form_new_text_message" @submit.prevent="onSubmit" style="width: 100%;">
-            <MessageField
+        <!-- <form id="form_new_text_message" @submit.prevent="onSubmit" style="width: 100%;">
+            <InputsTextMessageInput
                 label="Escribe un mensaje"
                 name="text"
                 type="text"
                 @send-message="onSubmit"
             >
-            </MessageField>
-            <!-- <InputsFile
-                label="Elige un archivo"
-                name="text"
-                type="text"
-            >
-            </InputsFile> -->
-        </form>
-
+            </InputsTextMessageInput>
+        </form> -->
+            <FormsTextMessage :chat-room="record_id" @send-file="() => toggle_form = !toggle_form" v-if="toggle_form"></FormsTextMessage>
+            <FormsFileMessage :chat-room="record_id" @send-text="() => toggle_form = !toggle_form" v-else></FormsFileMessage>
             <!-- <v-text-field
             bg-color="grey-lighten-1"
             class="overflow-hidden"
@@ -57,7 +52,6 @@
 </template>
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import MessageField from '~/components/inputs/MessageField.vue';
 import type { CreateTextMessageDomain } from '~/data/modules/chat-rooms/messages/domain/message.domain';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 import type { Errors } from '~/data/modules/shared/domain/ResponseFailure';
@@ -73,6 +67,8 @@ definePageMeta({
 useHead({
     title: 'Chat Room'
 });
+
+const toggle_form = ref(true);
 
 const route = useRoute();
 
