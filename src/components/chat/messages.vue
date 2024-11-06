@@ -1,6 +1,69 @@
 <template>
-    <v-container class="pa-10 mt-15" fluid>
-      <v-row v-for="message in messages">
+    <v-container class="mt-15" fluid>
+
+        <v-infinite-scroll
+            height="710"
+            side="start"
+            @load="(data: LoadType)=>load(data)"
+        >
+            <template v-for="(item, index) in list_message_store.list" :key="index">
+                <v-row ref="itemRefs">
+                    <v-col class="d-flex align-center" v-if="item.owner._id != store_user.me_data._id">
+                        <v-card color="success" class="flex-none">                        
+                            <v-card-text class="white--text pa-2 d-flex flex-column">
+                            <span class="text-caption">{{item.owner.name}} </span>                                                 
+                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                            <span class="text-caption font-italic align-self-end">{{
+                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                            }}</span> 
+                            </v-card-text>
+                        </v-card>      
+                    </v-col>
+                    <v-col v-else class="d-flex align-center justify-end" >
+                        <v-card color="primary" class="flex-none">
+                        <v-card-text class="white--text pa-2 d-flex flex-column">                                                                           
+                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                            <span class="text-caption font-italic align-self-end">{{
+                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                            }}</span> 
+                        </v-card-text>
+                        </v-card>
+                    </v-col>
+                </v-row> 
+            </template>
+            <template v-slot:empty>
+            </template>
+        </v-infinite-scroll>
+        <!-- <v-row v-for="message in list_message_store.data.data">
+            <v-col class="d-flex align-center" v-if="message.owner._id != store_user.me_data._id">
+                <div>
+                    <v-card color="success" class="flex-none">                        
+                        <v-card-text class="white--text pa-2 d-flex flex-column">
+                        <span class="text-caption">{{message.owner.name}} </span>                                                 
+                        <span class="align-self-start text-subtitle-1">{{ message.text }}</span>
+                        <span class="text-caption font-italic align-self-end">{{
+                            new Date(message.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                        }}</span> 
+                        </v-card-text>
+                    </v-card>      
+                    <div class="arrow-left"></div>
+                    </div>
+            </v-col>
+            <v-col v-else class="d-flex align-center justify-end" >
+                <div class="sent-message">
+                    <v-card color="primary" class="flex-none">
+                    <v-card-text class="white--text pa-2 d-flex flex-column">                                                                           
+                        <span class="align-self-start text-subtitle-1">{{ message.text }}</span>
+                        <span class="text-caption font-italic align-self-end">{{
+                            new Date(message.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                        }}</span> 
+                    </v-card-text>
+                    </v-card>
+                </div>
+                <div class="arrow-right"></div>
+            </v-col>
+      </v-row> -->
+      <!-- <v-row v-for="message in messages">
                 <v-col class="d-flex align-center" v-if="message.from != 'You'">
                     <div>
                         <v-card color="success" class="flex-none">                        
@@ -28,69 +91,70 @@
                     </div>
                     <div class="arrow-right"></div>
                 </v-col>
-
-      </v-row>
+      </v-row> -->
     </v-container>
 </template>
 
 <script setup lang="ts">
+import { useMeStore } from '~/data/store/auth/me.store';
+import { useListMessage } from '~/data/store/chat-room/message/list.store';
+import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
+import type { PaginationOptionsDomain } from '~/data/modules/shared/domain/PaginationOptions';
 
-const messages =  ref([
+const props = withDefaults(
+      defineProps<{
+          chatRoom: string;
+      }>(),
       {
-        from: 'You',
-        message: `Sure, I'll see you later.`,
-        time: '10:42am',
-        color: 'deep-purple lighten-1',
       },
-      {
-        from: 'John Doe',
-        message: 'Yeah, sure. Does 1:00pm work?',
-        time: '10:37am',
-        color: 'green',
-      },
-      {
-        from: 'You',
-        message: 'Did you still want to grab lunch today?',
-        time: '9:47am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        from: 'You',
-        message: `Sure, I'll see you later.`,
-        time: '10:42am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        from: 'John Doe',
-        message: 'Yeah, sure. Does 1:00pm work?',
-        time: '10:37am',
-        color: 'green',
-      },
-      {
-        from: 'You',
-        message: 'Did you still want to grab lunch today?',
-        time: '9:47am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        from: 'You',
-        message: 'Did you still want to grab lunch today?',
-        time: '9:47am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        from: 'You',
-        message: `Sure, I'll see you later.`,
-        time: '10:42am',
-        color: 'deep-purple lighten-1',
-      },
-      {
-        from: 'John Doe',
-        message: 'Yeah, sure. Does 1:00pm work?',
-        time: '10:37am',
-        color: 'green',
-      },
-    ]);
+);
+
+const itemRefs = ref([]);
+
+
+const list_message_store = useListMessage();
+const store_user = useMeStore();
+
+
+
+    const page = ref(1);
+
+    const changeTableOptions= async (data: PaginationOptionsDomain)=>{
+          const sortBy: PaginationOptionsDomain['sortBy'] = data.sortBy?.length ? data.sortBy : [{
+              key: 'created_at',
+              order: 'desc'
+          }];
+          await list_message_store.getList(props.chatRoom,
+            {
+                ...data,
+                sortBy:sortBy,
+                search: '',
+                columns:[]
+            }
+          );
+    }
+
+
+    const load = async (data: LoadType)  =>{
+        await changeTableOptions({
+                page: page.value,
+                itemsPerPage: 10
+        });
+        page.value = page.value + 1;
+        const last_item_index = itemRefs.value.length - 1; 
+        if(last_item_index > -1 ){
+            (itemRefs.value[last_item_index]?.$el as HTMLDivElement).scrollIntoView({ behavior: 'smooth' })
+        }
+        data.done('ok')
+        if(list_message_store.data.current_page >= list_message_store.data.total_pages){
+            data.done('empty')
+        }
+    }
+
+
+    onUnmounted(async() => {
+        list_message_store.$reset();
+    });
 
 </script>
 <style scoped>
@@ -105,7 +169,7 @@ const messages =  ref([
 .flex-none {
   flex: unset;
 }
-.received-message::after {
+/* .received-message::after {
   content: ' ';
   position: absolute;
   width: 0;
@@ -115,7 +179,7 @@ const messages =  ref([
   top: 325px;
   bottom: auto;
   border: 12px solid;
-  /* border-color: #4caf50; */
+  border-color: #4caf50;
   border-color: #4caf50 transparent transparent transparent;
 }
 .sent-message::after {
@@ -128,8 +192,8 @@ const messages =  ref([
     top: 12px;
     bottom: auto;
     border: 12px solid;
-    /* border-color: #1976d2 transparent transparent transparent; */
-}
+    border-color: #1976d2 transparent transparent transparent;
+} */
 
 div.arrow-left::after {
     content: "";

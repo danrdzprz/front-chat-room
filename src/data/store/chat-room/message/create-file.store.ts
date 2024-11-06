@@ -6,7 +6,7 @@ import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 import type { ResponseFailure } from '~/data/modules/shared/domain/ResponseFailure';
 import type { ResponseSuccess } from '~/data/modules/shared/domain/ResponseSuccess';
 
-export const useCreateTextMessage = defineStore('FILE_MESSAGE_CREATE',{
+export const useCreateFileMessage = defineStore('FILE_MESSAGE_CREATE',{
       state: ():{status: RequestStatus, message:  ResponseSuccess['message'] | null, errors: ResponseFailure["message"]}=> {
         return {
           status:RequestStatus.INITIAL,
@@ -18,7 +18,7 @@ export const useCreateTextMessage = defineStore('FILE_MESSAGE_CREATE',{
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async registerUser(chat_room: string, data: CreateFileMessageDomain) {
+        async sendMessage(chat_room: string, data: CreateFileMessageDomain) {
           const repository = ApiMessageRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;
@@ -27,7 +27,6 @@ export const useCreateTextMessage = defineStore('FILE_MESSAGE_CREATE',{
             )(chat_room, data)
             .then(response => {
               this.status = RequestStatus.SUCCESS;
-              this.message = HandleSuccessResponse(response);
               return response;
             })
             .catch( e => {

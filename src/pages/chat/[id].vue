@@ -23,12 +23,28 @@
             ></v-btn>
         </div>
     </v-sheet>
-    <ChatMessages></ChatMessages>
+    <ChatMessages :chat-room="record_id"></ChatMessages>
     <v-footer
-            height="72"
+            height="100"
             app
-        >
-            <v-text-field
+    >
+        <form id="form_new_text_message" @submit.prevent="onSubmit" style="width: 100%;">
+            <MessageField
+                label="Escribe un mensaje"
+                name="text"
+                type="text"
+                @send-message="onSubmit"
+            >
+            </MessageField>
+            <!-- <InputsFile
+                label="Elige un archivo"
+                name="text"
+                type="text"
+            >
+            </InputsFile> -->
+        </form>
+
+            <!-- <v-text-field
             bg-color="grey-lighten-1"
             class="overflow-hidden"
             density="compact"
@@ -36,11 +52,18 @@
             variant="solo-filled"
             flat
             hide-details
-            ></v-text-field>
-        </v-footer>
+            ></v-text-field> -->
+    </v-footer>
 </template>
 <script setup lang="ts">
+import { useForm } from 'vee-validate';
+import MessageField from '~/components/inputs/MessageField.vue';
+import type { CreateTextMessageDomain } from '~/data/modules/chat-rooms/messages/domain/message.domain';
+import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+import type { Errors } from '~/data/modules/shared/domain/ResponseFailure';
+import { ResolverTextMessageSchema } from '~/data/schemes/chat-rooms/message/text-message.scheme';
 import { useDetailChatRoom } from '~/data/store/chat-room/detail.store';
+import { useCreateTextMessage } from '~/data/store/chat-room/message/create.store';
 import { useMenuState } from '~/data/store/menus.store';
 
 definePageMeta({
@@ -56,6 +79,27 @@ const route = useRoute();
 const record_id = route.params.id as string;
 
 const store_chatroom_detail = useDetailChatRoom();
+
+const store_text_message = useCreateTextMessage();
+
+const { handleSubmit, handleReset,setErrors,errors,values } = useForm<CreateTextMessageDomain>({
+        validationSchema: ResolverTextMessageSchema(),
+});
+
+const onSubmit = handleSubmit(async values => {
+    await store_text_message.sendMessage(record_id, values);
+
+});
+
+store_text_message.$subscribe((mutation, state) => {
+    if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.SUCCESS ){
+        handleReset();
+        store_text_message.$reset();
+    }
+    if( state.status !== RequestStatus.LOADING && state.status === RequestStatus.ERROR ){
+        setErrors(store_text_message.errors as Errors);
+    }
+});
 
 const menu = useMenuState();
 

@@ -38,7 +38,7 @@ export const useListMessage =
             .then(response => {
               this.status = RequestStatus.SUCCESS;
               this.data = response;
-              this.list = [...this.list,... this.data.data];
+              this.list = [ ...this.data.data.slice().reverse(), ...this.list,];
               return response;
             })
             .catch(error => {
