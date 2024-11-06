@@ -27,7 +27,13 @@ export const useListMessage =
       },
       actions: {
         appendToList(data: DetailMessageDomain){
-          this.list = [data,...this.list];
+          this.list = [...this.list, data];
+        },
+        remove(id: string){
+          const index = this.list.findIndex( (element, x )=> element._id===id);
+          if (index > -1) {
+            this.list.splice(index, 1);
+          }
         },
         async getList(chat_room: string, data: PaginationOptionsDomain) {
           const repository = ApiMessageRepository();

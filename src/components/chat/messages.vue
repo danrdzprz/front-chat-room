@@ -9,7 +9,33 @@
             <template v-for="(item, index) in list_message_store.list" :key="index">
                 <v-row ref="itemRefs">
                     <v-col class="d-flex align-center" v-if="item.owner._id != store_user.me_data._id">
-                        <v-menu
+                        <v-card color="success" class="flex-none" v-bind="props" > 
+                        <v-card-text class="white--text pa-2 d-flex flex-column">
+                            <div class="d-flex align-center justify-space-between">
+                                <span class="text-caption">{{item.owner.name}} </span>        
+                                <v-btn 
+                                    variant="flat" 
+                                    color="success" 
+                                    icon="mdi-dots-vertical" 
+                                    size="x-small" 
+                                    v-bind="props"
+                                    :loading="store_delete_message.status === RequestStatus.LOADING" 
+                                ></v-btn>
+                            </div>
+                            <div class="ma-4" v-if="item.file_path && item.file_url">
+                                <v-img
+                                    :aspect-ratio="1"
+                                    :src="item.file_url"
+                                    cover
+                                ></v-img>
+                            </div> 
+                            <span class="align-self-start text-subtitle-1">{{ item.text }}</span>
+                            <span class="text-caption font-italic align-self-end">{{
+                                new Date(item.createdAt).toLocaleString('es-MX', {day:'numeric', month: 'long', year:'numeric', hour: '2-digit', minute:'2-digit'})
+                            }}</span> 
+                        </v-card-text>
+                    </v-card>
+                        <!-- <v-menu
                             open-on-hover
                             location="right"
                             >
@@ -42,22 +68,8 @@
                                 </v-card>  
                             </template>
 
-                                <v-card variant="flat">
-                                    <v-card-text>
-                                        <div class="mx-auto text-center">
-                                            <v-btn color="warning"  
-                                                @click="()=>store_delete_message.remove(item._id)" 
-                                                :loading="store_delete_message.status === RequestStatus.LOADING" 
-                                                variant="outlined" 
-                                                block
-                                                >
-                                                {{ $t('general.delete') }}
-                                            </v-btn>
-                                            
-                                        </div>
-                                    </v-card-text>
-                                </v-card>
-                            </v-menu>
+                                
+                            </v-menu> -->
                             
                     </v-col>
                     <v-col v-else class="d-flex align-center justify-end" >
@@ -127,6 +139,8 @@ import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataTy
 import type { PaginationOptionsDomain } from '~/data/modules/shared/domain/PaginationOptions';
 import { useDeleteMessage } from '~/data/store/chat-room/message/delete.store';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
+import type { Socket } from 'socket.io-client';
+import type { DetailMessageDomain } from '~/data/modules/chat-rooms/messages/domain/message.domain';
 const props = withDefaults(
       defineProps<{
           chatRoom: string;
@@ -137,6 +151,7 @@ const props = withDefaults(
 
 const itemRefs = ref([]);
 
+const { $io } : { $io: Socket} = useNuxtApp();
 
 const list_message_store = useListMessage();
 const store_delete_message = useDeleteMessage();
@@ -168,19 +183,41 @@ const store_user = useMeStore();
                 itemsPerPage: 10
         });
         page.value = page.value + 1;
-        const last_item_index = itemRefs.value.length - 1; 
-        if(last_item_index > -1 ){
-            // @ts-ignore
-            (itemRefs.value[last_item_index]?.$el as HTMLDivElement).scrollIntoView({ behavior: 'smooth' })
-        }
+        cursorToEnd();
         data.done('ok')
         if(list_message_store.data.current_page >= list_message_store.data.total_pages){
             data.done('empty')
         }
     }
 
+    const cursorToEnd = ()=>{
+        const last_item_index = itemRefs.value.length - 1; 
+        if(last_item_index > -1 ){
+            // @ts-ignore
+            (itemRefs.value[last_item_index]?.$el as HTMLDivElement).scrollIntoView({ behavior: 'smooth' })
+        }
+    }
 
+    const listenNotification = () => {
+        $io.on("new-message", (payload: DetailMessageDomain) => {
+          console.log(payload);
+          list_message_store.appendToList(payload);
+          cursorToEnd();
+        });
+
+        $io.on("delete-message", (payload: DetailMessageDomain) => {
+          console.log(payload);
+          list_message_store.remove(payload._id);
+        });
+    }
+
+    onMounted(()=>{
+        $io.emit('join-chat-room', props.chatRoom);
+        listenNotification();
+        cursorToEnd();
+    })
     onUnmounted(async() => {
+        $io.emit('leave-chat-room', props.chatRoom);
         list_message_store.$reset();
     });
 

@@ -26,7 +26,6 @@ export const useDeleteMessage = defineStore('MESSAGE_DELETE',{
             )(id)
             .then(response => {
               this.status = RequestStatus.SUCCESS;
-              this.message = HandleSuccessResponse(response);
               return response;
             })
             .catch( e => {
