@@ -62,7 +62,7 @@ import { useMenuState } from '~/data/store/menus.store';
     });
 
     const onSubmit = handleSubmit(async values => {
-       await register_chatroom_store.registerUser(values);
+       await register_chatroom_store.register(values);
     });
 
     register_chatroom_store.$subscribe((mutation, state) => {

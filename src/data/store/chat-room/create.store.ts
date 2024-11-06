@@ -18,7 +18,7 @@ export const useCreateChatRoom = defineStore('CHAT_ROOM_CREATE',{
         get_status: (state):RequestStatus => state.status,
       },
       actions: {
-        async registerUser(data: CreateChatRoomDomain) {
+        async register(data: CreateChatRoomDomain) {
           const repository = ApiChatRoomRepository();
           this.$reset();
           this.status = RequestStatus.LOADING ;

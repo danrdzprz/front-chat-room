@@ -29,6 +29,16 @@ export const useListChatRoom =
         appendToList(data: DetailChatRoomDomain){
           this.list = [data,...this.list];
         },
+        remove(id: string){
+          const index = this.list.findIndex( (element, x )=> element._id===id);
+          if (index > -1) {
+            this.list.splice(index, 1);
+          }else{
+            // this.list.push(item);
+          }
+
+          // this.list = [data,...this.list];
+        },
         async getList(data: PaginationOptionsDomain) {
           const repository = ApiChatRoomRepository();
           this.status = RequestStatus.LOADING;

@@ -10,7 +10,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     //try to connect to socket
     if(token.value && $io){
         if(!$io.connected){
-            console.log($io);
             // $io.auth.token = `Bearer ${token.value}`;
             $io.auth = {token : `Bearer ${token.value}`};
             $io.connect();

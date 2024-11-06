@@ -18,13 +18,18 @@
   </v-infinite-scroll>
 </template>
 <script setup lang="ts">
-  import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
+  import type { Socket } from 'socket.io-client';
+import type { DetailChatRoomDomain } from '~/data/modules/chat-rooms/domain/chat-room.domain';
+import type { LoadType } from '~/data/modules/shared/domain/InfitityScrollDataType';
   import type { PaginationOptionsDomain } from '~/data/modules/shared/domain/PaginationOptions';
   import { useListChatRoom } from '~/data/store/chat-room/list.store';
 
     const list_chat_room_store = useListChatRoom();
 
     const page = ref(1);
+    
+    const { $io } : { $io: Socket} = useNuxtApp();
+
 
     const changeTableOptions= async (data: PaginationOptionsDomain)=>{
           const sortBy: PaginationOptionsDomain['sortBy'] = data.sortBy?.length ? data.sortBy : [{
@@ -56,6 +61,21 @@
       }
 
     }
+
+    const listenNotification = () => {
+        $io.on("new-chat-room", (payload: DetailChatRoomDomain) => {
+          list_chat_room_store.appendToList(payload);
+        });
+
+        $io.on("delete-chat-room", (payload: DetailChatRoomDomain) => {
+          console.log(payload);
+          list_chat_room_store.remove(payload._id);
+        });
+    }
+
+    onMounted(()=>{
+        listenNotification();
+    })
 
 
 </script>
