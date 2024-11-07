@@ -4,16 +4,6 @@
     >   
         <div class="d-flex align-center justify-space-between">
             <h3 class="ml-5">{{ store_chatroom_detail.data.name }}</h3>
-            <v-responsive max-width="300">
-            <v-text-field
-                bg-color="grey-lighten-1"
-                density="compact"
-                rounded="pill"
-                variant="solo-filled"
-                flat
-                hide-details
-            ></v-text-field>
-            </v-responsive>
             <v-btn
                 class="ma-2"
                 color="green"

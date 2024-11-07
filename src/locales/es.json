@@ -33,6 +33,9 @@
       "text_1":"Ya tienes cuenta?",
       "text_2":"Inicia sesión",
       "sign_up_button":"Ingresar"
+    },
+    "search":{
+      "title":"Buscar en {name}"
     }
   },
   "validations":{

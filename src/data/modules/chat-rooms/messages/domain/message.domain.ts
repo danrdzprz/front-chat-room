@@ -5,14 +5,20 @@ export interface CreateTextMessageDomain{
 }
 
 export interface CreateFileMessageDomain{
+    file: Blob;
     file_path: string;
     text: string;
 }
 
-export interface DetailMessageDomain extends CreateTextMessageDomain, CreateFileMessageDomain{
+export interface SearchMessageDomain{
+    text: string;
+}
+
+export interface DetailMessageDomain extends CreateTextMessageDomain{
     _id: string;
     owner: UserDomain;
     file_url?: string | null;
+    file_path: string | null;
     createdAt: string;
 }
 

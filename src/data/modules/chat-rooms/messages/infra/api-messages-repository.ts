@@ -2,7 +2,7 @@ import type { PaginationDomain } from "../../../shared/domain/Pagination";
 import type { PaginationOptionsDomain } from "../../../shared/domain/PaginationOptions";
 import type { ResponseFailure } from "../../../shared/domain/ResponseFailure";
 import type { ResponseSuccess } from "../../../shared/domain/ResponseSuccess";
-import type { CreateFileMessageDomain, CreateTextMessageDomain, DetailMessageDomain, UpdateFileMessageDomain, UpdateTextMessageDomain } from "../domain/message.domain";
+import type { CreateFileMessageDomain, CreateTextMessageDomain, DetailMessageDomain, SearchMessageDomain, UpdateFileMessageDomain, UpdateTextMessageDomain } from "../domain/message.domain";
 import type { MessageRepositoryDomain } from "../domain/message.repository.domain";
 
 export function ApiMessageRepository(): MessageRepositoryDomain {
@@ -115,6 +115,21 @@ export function ApiMessageRepository(): MessageRepositoryDomain {
 			throw error;
 		}
 	}
+
+	async function searchMessage(id: string, data: SearchMessageDomain): Promise<DetailMessageDomain[]> {
+		const response = await request(`/api/chat-rooms/${id}/search-message?text=${data.text}`,{
+			method: 'GET',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		});
+		if(response.ok){
+			return await response.json();
+		}else{
+			const error = await response.json() as ResponseFailure;
+			throw error;
+		}
+	}
 	
 	return {
 		list,
@@ -124,5 +139,6 @@ export function ApiMessageRepository(): MessageRepositoryDomain {
         updateTextMessage,
         updateFileMessage,
         destroy,
+		searchMessage,
 	};
 }

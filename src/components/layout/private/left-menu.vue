@@ -18,7 +18,7 @@
             </v-list> -->
             
         </v-navigation-drawer>
-        <DialogsForStore v-model:model-value="dialog" :title="$t('general.new_chat_room')">
+        <DialogsForStore v-model:model-value="dialog" :title="$t('general.new_chat_room')" activator-target="#activator-target">
             <template v-slot:[`form`]>
                 <form autocomplete="on" id="form_new_chat_room" @submit.prevent="onSubmit" class="mt-7">
                     <FormsNewChat></FormsNewChat>

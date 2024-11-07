@@ -1,8 +1,8 @@
 <template>
-    <v-dialog
+            <v-dialog
                 v-model="value"
                 max-width="600"
-                activator="#activator-target"
+                :activator="activatorTarget"
             >
 
             <v-card
@@ -32,6 +32,7 @@ const props = withDefaults(
             defineProps<{
                 modelValue: boolean|undefined,
                 title: string;
+                activatorTarget:string;
                 icon?:string;
             }>(),
             {

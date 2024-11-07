@@ -23,9 +23,6 @@
             <v-card>
                     <v-card-text>
                         <div class="mx-auto text-center">
-                            <v-btn @click="()=>logout()" :disabled="logout_store.status === RequestStatus.LOADING" color="primary" variant="outlined" block>
-                                {{ $t('general.logout') }}
-                            </v-btn>
                             <v-divider class="my-3"></v-divider>
                             <v-btn @click="()=>logout()" :disabled="logout_store.status === RequestStatus.LOADING" color="primary" variant="outlined" block>
                                 {{ $t('general.logout') }}
