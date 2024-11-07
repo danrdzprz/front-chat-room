@@ -2,8 +2,11 @@
     <v-container class="mt-15" fluid>
 
         <v-infinite-scroll
+            ref="messageContainer"
+            direction="vertical"
             side="start"
             @load="(data: LoadType)=>load(data)"
+            class="message-container"
         >
             <template v-for="(item, index) in list_message_store.list" :key="index">
                 <v-row ref="itemRefs">
@@ -140,6 +143,8 @@ import { useDeleteMessage } from '~/data/store/chat-room/message/delete.store';
 import { RequestStatus } from '~/data/modules/shared/domain/RequestStatus';
 import type { Socket } from 'socket.io-client';
 import type { DetailMessageDomain } from '~/data/modules/chat-rooms/messages/domain/message.domain';
+import { debounce } from '~/utils/debounce';
+
 const props = withDefaults(
       defineProps<{
           chatRoom: string;
@@ -149,6 +154,8 @@ const props = withDefaults(
 );
 
 const itemRefs = ref([]);
+
+const messageContainer = ref();
 
 const { $io } : { $io: Socket} = useNuxtApp();
 
@@ -182,26 +189,28 @@ const store_user = useMeStore();
                 itemsPerPage: 10
         });
         page.value = page.value + 1;
-        cursorToEnd();
         data.done('ok')
         if(list_message_store.data.current_page >= list_message_store.data.total_pages){
             data.done('empty')
         }
     }
 
+    const debouncedCursorToEnd = debounce(() => 
+        cursorToEnd(),
+		500 // timeout in ms
+	);
+
     const cursorToEnd = ()=>{
-        const last_item_index = itemRefs.value.length - 1; 
-        if(last_item_index > -1 ){
-            // @ts-ignore
-            (itemRefs.value[last_item_index]?.$el as HTMLDivElement).scrollIntoView({ behavior: 'smooth' })
-        }
+        const scrollContainer = (messageContainer.value?.$el as HTMLDivElement);
+        console.log(scrollContainer.scrollHeight);
+        scrollContainer.scrollTo({top: scrollContainer.scrollHeight, behavior: 'smooth'});
     }
 
     const listenNotification = () => {
         if(!$io.hasListeners(`new-message-${props.chatRoom}`)){
             $io.on(`new-message-${props.chatRoom}`, (payload: DetailMessageDomain) => {
               list_message_store.appendToList(payload);
-              cursorToEnd();
+              debouncedCursorToEnd();
             });
     
             $io.on(`delete-message-${props.chatRoom}`, (payload: DetailMessageDomain) => {
@@ -212,10 +221,8 @@ const store_user = useMeStore();
 
     onMounted(()=>{
         listenNotification();
-        cursorToEnd();
     })
     onUnmounted(async() => {
-        // $io.emit('leave-chat-room', props.chatRoom);
         list_message_store.$reset();
     });
 
@@ -232,41 +239,10 @@ const store_user = useMeStore();
 .flex-none {
   flex: unset;
 }
-/* .received-message::after {
-  content: ' ';
-  position: absolute;
-  width: 0;
-  height: 0;
-  left: 270px;  
-  right: auto;
-  top: 325px;
-  bottom: auto;
-  border: 12px solid;
-  border-color: #4caf50;
-  border-color: #4caf50 transparent transparent transparent;
-}
-.sent-message::after {
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    left: auto;    
-    right: 54px;
-    top: 12px;
-    bottom: auto;
-    border: 12px solid;
-    border-color: #1976d2 transparent transparent transparent;
-} */
 
-div.arrow-left::after {
-    content: "";
-    position: absolute;
-    bottom: 8px;
-    margin-left: -200px;
-    width: 15px;
-    height: 15px;
-    background: #333;
-    left: calc( 80% - 0.5em - 0.25px );
-    transform: rotate( -50deg );
-  }
+.message-container{
+    overflow-x: hidden;
+    height: 71vh;
+}
+
 </style>
