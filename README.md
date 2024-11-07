@@ -1,75 +1,35 @@
-# Nuxt Minimal Starter
+<h1 align="center"> Front Chat Room </h1>
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## :hammer: Librerías usadas
 
-## Setup
+- `Nuxtjs`: Framework de vue
+- `vuetify`: Material Design
+- `Pinia`: Para el manejo de estados
+- `socket.io`: Websockets
+- `vee-validate`: Para el manejo de formularios
+- `zod`: Para las validaciones de los formularios
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Comandos
 
 ```bash
-# npm
-npm run dev
+# Ejecutar la ap
+$ npm run dev
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Requisitos
 
-Build the application for production:
+- `Node js 20`
 
-```bash
-# npm
-npm run build
+## Instalación
 
-# pnpm
-pnpm build
+* Clonar repositorio
+* Copiar .env.example como .env
+* En directorio raíz ejecutar para intalar dependencias => npm install
+* Ejecutar en el directorio raíz => npm run dev
 
-# yarn
-yarn build
+## Documentación de la api
+* http://localhost:3001/docs
 
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## URL de temporal del proyecto
+http://test.devone.tech/
